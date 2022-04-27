@@ -39,8 +39,12 @@ public class HotelBookingService {
 		return bookRepos.findByBookingId(id);
 	}
 	
-	public List<HotelBooking> findByCost(float cost) {
-		List<HotelBooking> bo= bookRepos.findByCost(cost);
+	public Optional<HotelBooking> findByCost(float cost) {
+		Optional<HotelBooking> bo= bookRepos.findByCost(cost);
 		return bo;
 	}
+	/*
+	 * public List<HotelBooking> findListCost(float cost) { List<HotelBooking> bo=
+	 * bookRepos.findCostBy(cost); return bo; }
+	 */
 }

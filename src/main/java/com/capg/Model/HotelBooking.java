@@ -1,6 +1,7 @@
 package com.capg.Model;
 
 import java.time.LocalDate;
+import java.util.Date;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -38,10 +39,10 @@ public  class HotelBooking {
 	  private int userId;
 	  
 	@NotNull
-	  private LocalDate startDate; 
+	  private Date startDate; 
 	  
 	@NotNull
-	  private LocalDate endDate;
+	  private Date endDate;
 	  
 	  @Min(100)
 	  @Max(10000)

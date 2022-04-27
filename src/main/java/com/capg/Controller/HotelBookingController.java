@@ -3,6 +3,7 @@ package com.capg.Controller;
 import java.util.List;
 
 
+
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,6 +28,11 @@ public class HotelBookingController {
 
 	@Autowired
 	HotelBookingService service;
+	
+	@GetMapping("/booking")
+	public String getBooking() {
+		return "Booking";
+	}
 
 	@PostMapping("/addBooking")
 	// @ResponseBody
@@ -61,7 +67,23 @@ public class HotelBookingController {
 		}
 		//return new ResponseEntity<HotelBooking>(book.get(), HttpStatus.OK);
 	}
-
+   
+	
+	@GetMapping("/getBookingByCost")
+	public ResponseEntity<HotelBooking> fetchBookingByCost(@RequestParam("cost") float cost) {
+		Optional<HotelBooking> bookObj = service.findByCost(cost);
+		if (bookObj.isPresent()) {
+			Optional<HotelBooking> book = service.findByCost(cost);
+			//service.updateHotelBooking(book);
+			return new ResponseEntity<HotelBooking>(book.get(), HttpStatus.OK);
+			//status = "Successfully Updated";
+		} else {
+			throw new ResourceNotFoundException("Given cost it's not available in db..");
+		}
+		//return new ResponseEntity<HotelBooking>(book.get(), HttpStatus.OK);
+	}
+	
+	
 	@PutMapping("/updateBookingById")
 	public ResponseEntity<String> updateBookingById(@RequestBody HotelBooking book) {
 		String status = null;

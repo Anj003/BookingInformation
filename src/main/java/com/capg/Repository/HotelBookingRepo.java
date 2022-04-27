@@ -16,6 +16,7 @@ public interface HotelBookingRepo extends JpaRepository<HotelBooking,Integer>{
 	public Optional<HotelBooking> findByBookingId(int id);
 	
 	@Query(value="select e from HotelBooking e where e.cost = :cost")
-	List<HotelBooking> findByCost(@Param("cost") float cost);
+	Optional<HotelBooking> findByCost(@Param("cost") float cost);
+	//List<HotelBooking> findCostBy(@Param("cost") float cost);
 	
 }
