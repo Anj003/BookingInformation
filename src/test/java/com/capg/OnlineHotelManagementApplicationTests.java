@@ -1,15 +1,19 @@
 package com.capg;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+
 import static org.mockito.Mockito.when;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
+import java.text.ParseException;
 import java.util.Date;
+/*import java.time.Date;
+import java.util.Date;*/
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -29,44 +33,52 @@ class OnlineHotelManagementApplicationTests {
 	private HotelBookingService service;
 	
 	
-	SimpleDateFormat format = new SimpleDateFormat("MM/dd/yyyy");
-   // Date startDate = format.parse("05/06/2010");
-   // Date endDate = format.parse("02/07/2010");
 	
 	
 	
-	@Test
-	 void contextLoads() {
-		
-	}
-	//fetchAllBooking
 	
 	/*
-	 * @Test public void getAllBooking() {
-	 * when(bookingrepo.findAll()).thenReturn(Stream.of(new HotelBooking(123,
-	 * 234,456, 678, startDate, endDate , 300.8f, "Booked"))
-	 * .collect(Collectors.toList()));
-	 * assertEquals(1,service.getAllHotelBooking().size()); }
+	 * @Test void contextLoads() {
 	 * 
-	 * 
-	 * //fetchBookingById //@Test
-	 * 
-	 * 
-	 * public void getBookingById() { int id=123; HotelBooking book=new
-	 * HotelBooking(123,234, 456, 678, startDate,endDate, 300.8f, "Booked");
-	 * when(bookingrepo.findById(id)).thenReturn(Optional.ofNullable(new
-	 * HotelBooking(123, 234, 456, 678, startDate, endDate, 300.8f, "Booked")));
-	 * assertEquals(book,service.fetchByBookingId(id)); }
-	 * 
-	 * 
-	 * //SaveBooking
-	 * 
-	 * @Test public void saveBooking() { HotelBooking book=new HotelBooking(123,234,
-	 * 456, 678, startDate,endDate, 300.8f, "Booked");
-	 * when(bookingrepo.save(book)).thenReturn(book);
-	 * assertEquals(book,service.addHotelBooking(book)); }
-	 * 
+	 * }
 	 */
+	//fetchAllBooking
+	
+	
+	  @Test public void getAllBooking() throws ParseException {
+	 SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+     Date startDate = format.parse("05-06-2010");
+     Date endDate = format.parse("02-07-2010");
+	  when(bookingrepo.findAll()).thenReturn(Stream.of(new HotelBooking(123,234,456, 678, startDate, endDate , 300.8f, "Booked")).collect(Collectors.toList()));
+	  assertEquals(1,service.getAllHotelBooking().size()); }
+	  
+	  
+	  //fetchBookingById //@Test
+	  
+	  @Test
+	  public void getBookingById() throws ParseException {
+		  SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+		  Date startDate = format.parse("05-06-2010");
+		  Date endDate = format.parse("02-07-2010");
+		  int id=123; 
+		HotelBooking book=new HotelBooking(123,234, 456, 678, startDate,endDate, 300.8f, "Booked");
+	  when(bookingrepo.findByBookingId(id)).thenReturn(Optional.of(book));
+	  assertEquals(book.toString(),service.fetchByBookingId(id).get().toString()); 
+	  }
+	  
+	  
+	  //SaveBooking
+	  
+	  @Test public void saveBooking() throws ParseException { 
+		  SimpleDateFormat format = new SimpleDateFormat("dd-MM-yyyy");
+		     Date startDate = format.parse("05-06-2010");
+		     Date endDate = format.parse("02-07-2010");
+		  HotelBooking book=new HotelBooking(123,234,456, 678, startDate,endDate, 300.8f, "Booked");
+	  when(bookingrepo.save(book)).thenReturn(book);
+	  assertEquals(book.toString(),service.addHotelBooking(book).toString()); 
+	  }
+	  
+	 
 	  //fetchBookingByCost
 		
 		/*
@@ -94,14 +106,23 @@ class OnlineHotelManagementApplicationTests {
 	//deleteByBookingId
 	
 	
-	/*
-	 * @Test public void deleteBookingById() { int id=123;
-	 * when(bookingrepo.findByBookingId(id)).thenReturn(Stream.of(service.
-	 * deleteHotelBookingById(id))).collect(Collectors.toList()));
-	 * assertEquals(1,service.fetchByBookingId(id).size());
-	 * 
-	 * }
-	 */
+	
+	
+	  @Test 
+	  public void deleteBookingById(){
+	   int id=123; 
+	   HotelBooking book=bookingrepo.getById(id);	  
+	   bookingrepo.delete(book);
+	   HotelBooking book2=null;
+	   Optional<HotelBooking> b = bookingrepo.findByBookingId(id);
+	   if(b.isPresent()) {
+		   book2=b.get();
+	   }
+	   Assertions.assertNull(book2);
+	  
+	  }
+	 
+	 
 	 
 	 
 }

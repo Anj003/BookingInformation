@@ -2,6 +2,8 @@ plugins {
 	id 'org.springframework.boot' version '2.6.6'
 	id 'io.spring.dependency-management' version '1.0.11.RELEASE'
 	id 'java'
+	id "org.sonarqube" version "7.5"
+	id 'jacoco'
 }
 
 group = 'com.HotelBooking'
@@ -56,6 +58,14 @@ dependencyManagement {
 	}
 }
 
+//test{
+  //  useJUnitPlatform(){
+    //ignoreFailures = true
+ //}   
+
+tasks['sonarqube'].dependsOn test
+
 tasks.named('test') {
 	useJUnitPlatform()
+	ignoreFailures = true
 }
